@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "152636520188",
+    "project_id": "shopping-56bed",
+    "storage_bucket": "shopping-56bed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:152636520188:android:d670f229be490b35264979",
+        "android_client_info": {
+          "package_name": "com.group04.shop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAN64Cw04DClViD9rV0pVvX4s5F0ScBOyg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
