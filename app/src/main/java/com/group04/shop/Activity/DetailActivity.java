@@ -46,8 +46,7 @@ public class DetailActivity extends BaseActivity {
 
     private void initSize() {
         ArrayList<String> list = new ArrayList<>();
-        list.add("S");
-        list.add("M");
+        list.add("200gr");
 
         binding.recyclerSize.setAdapter(new SizeAdapter(list));
         binding.recyclerSize.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));

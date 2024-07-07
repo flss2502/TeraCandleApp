@@ -1,15 +1,29 @@
 package com.group04.shop.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.group04.shop.Adapter.CartAdapter;
+import com.group04.shop.Api.CreateOrder;
 import com.group04.shop.Helper.ChangeNumberItemsListener;
 import com.group04.shop.Helper.ManagmentCart;
 import com.group04.shop.databinding.ActivityCartBinding;
+
+import org.json.JSONObject;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import vn.zalopay.sdk.Environment;
+import vn.zalopay.sdk.ZaloPayError;
+import vn.zalopay.sdk.ZaloPaySDK;
+import vn.zalopay.sdk.listeners.PayOrderListener;
 
 public class CartActivity extends AppCompatActivity {
     ActivityCartBinding binding;
@@ -21,10 +35,63 @@ public class CartActivity extends AppCompatActivity {
         binding = ActivityCartBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        StrictMode.ThreadPolicy policy = new
+                StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        ZaloPaySDK.init(2553, Environment.SANDBOX);
+
         managmentCart = new ManagmentCart(this);
         calculatorCart();
         setVariable();
         initCartList();
+
+        double total = Double.parseDouble(extractNumber(binding.tvTotal.getText().toString()));
+        String totalString = String.format("%.0f", total);
+
+        binding.btnCheckOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CreateOrder orderApi = new CreateOrder();
+                try {
+                    JSONObject data = orderApi.createOrder(totalString);
+
+                    String code = data.getString("return_code");
+
+
+                    if (code.equals("1")) {
+                        String token = data.getString("zp_trans_token");
+                        ZaloPaySDK.getInstance().payOrder(CartActivity.this, token, "demozpdk://app", new PayOrderListener() {
+                            @Override
+                            public void onPaymentSucceeded(String s, String s1, String s2) {
+                                Intent intent = new Intent(CartActivity.this, PaymentNotification.class);
+                                intent.putExtra("result", "Thanh toán thành công");
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void onPaymentCanceled(String s, String s1) {
+                                Intent intent = new Intent(CartActivity.this, PaymentNotification.class);
+                                intent.putExtra("result", "Đã hủy thanh toán");
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
+                                Intent intent = new Intent(CartActivity.this, PaymentNotification.class);
+                                intent.putExtra("result", "Thanh toán không thành công");
+                                startActivity(intent);
+                            }
+                        });
+
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
     }
 
     private void initCartList() {
@@ -57,5 +124,16 @@ public class CartActivity extends AppCompatActivity {
         binding.tvTax.setText(tax + "VNĐ");
         binding.tvDelivery.setText(delivery + "VNĐ");
         binding.tvTotal.setText(total + "VNĐ");
+
+    }
+
+    private String extractNumber(String text) {
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(text);
+
+        if (matcher.find()) {
+            return matcher.group();
+        }
+        return null;
     }
 }

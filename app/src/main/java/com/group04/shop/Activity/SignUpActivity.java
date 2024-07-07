@@ -7,6 +7,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,7 @@ public class SignUpActivity extends AppCompatActivity {
     private Button buttonSignUp;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
+    private TextView signInTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,7 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         // Initialize Firebase Database reference
-        databaseReference = FirebaseDatabase.getInstance("https://shopping-56bed-default-rtdb.asia-southeast1.firebasedatabase.app").getReference();
+        databaseReference = FirebaseDatabase.getInstance("https://shopping-56bed-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("users");
 
         // Initialize views
         editTextFullName = findViewById(R.id.fullNameEditText);
@@ -47,6 +49,7 @@ public class SignUpActivity extends AppCompatActivity {
         editTextPhone = findViewById(R.id.phoneEditText);
         editTextConfirmPassword = findViewById(R.id.reEnterPasswordEditText);
         buttonSignUp = findViewById(R.id.signUpButton);
+        signInTextView = findViewById(R.id.signInTextView);
 
         // Handle sign up button click
         buttonSignUp.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +58,8 @@ public class SignUpActivity extends AppCompatActivity {
                 signUpUser();
             }
         });
+
+        signInTextView.setOnClickListener(v -> startActivity(new Intent(SignUpActivity.this, LoginActivity.class)));
     }
 
     private void signUpUser() {
