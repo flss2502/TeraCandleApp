@@ -1,28 +1,27 @@
 package com.group04.shop.Models;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 public class User {
     private String id;
     private String fullName;
     private Role role;
     private String address;
     private String phoneNumber;
-    private String confirmPassword;
     private String email;
     private String password;
 
-    public User(String id, String fullName, Role role, String address, String phoneNumber, String confirmPassword, String email, String password) {
-        this.id = id;
+    public User(AtomicLong userId, String fullName, String address, String phoneNumber, String email, String password) {
+        this.id = String.valueOf(userId); // Convert AtomicLong to String
         this.fullName = fullName;
-        this.role = role;
+        this.role = Role.CUSTOMER; // Set the role to CUSTOMER by default
         this.address = address;
         this.phoneNumber = phoneNumber;
-        this.confirmPassword = confirmPassword;
         this.email = email;
         this.password = password;
     }
-    public User(String finalUserId, String fullName, Role customer, String address, String phone, String email, String password) {
 
-    }
+    // Getters and setters
 
     public String getId() {
         return id;
@@ -44,9 +43,7 @@ public class User {
         return role;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
+    // No setter for role to enforce immutability of role once set during user creation
 
     public String getAddress() {
         return address;
@@ -62,14 +59,6 @@ public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
     }
 
     public String getEmail() {
@@ -88,3 +77,5 @@ public class User {
         this.password = password;
     }
 }
+
+
