@@ -19,7 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.group04.shop.Models.User;
+import com.group04.shop.Domain.UserDomain;
 import com.group04.shop.R;
 
 import java.util.concurrent.atomic.AtomicLong;
@@ -127,7 +127,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                                 if (firebaseUser != null) {
                                     // Create a User object with required fields
-                                    User user = new User(userId, fullName, address, phone, email, password);
+                                    UserDomain user = new UserDomain(userId, fullName, address, phone, email, password);
 
                                     // Save user to Firebase Realtime Database
                                     databaseReference.child("users").child(String.valueOf(userId.get())).setValue(user)
