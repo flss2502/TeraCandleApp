@@ -4,20 +4,22 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.group04.shop.Adapter.SizeAdapter;
 import com.group04.shop.Adapter.SliderAdapter;
 import com.group04.shop.Domain.ItemsDomain;
 import com.group04.shop.Domain.SliderItems;
+import com.group04.shop.Fragment.DescriptionFragment;
+import com.group04.shop.Fragment.ReviewFragment;
+import com.group04.shop.Fragment.SoldFragment;
 import com.group04.shop.Helper.ManagmentCart;
-import com.group04.shop.R;
 import com.group04.shop.databinding.ActivityDetailBinding;
-import com.group04.shop.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,10 +39,22 @@ public class DetailActivity extends BaseActivity {
 
         managmentCart = new ManagmentCart(this);
         getBundles();
-        banners();
+        initBanner();
+        initSize();
+        setupViewpager();
     }
 
-    private void banners() {
+    private void initSize() {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("S");
+        list.add("M");
+
+        binding.recyclerSize.setAdapter(new SizeAdapter(list));
+        binding.recyclerSize.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+    }
+
+    private void initBanner() {
         ArrayList<SliderItems> sliderItems = new ArrayList<>();
         for(int i = 0; i < object.getPicUrl().size(); i++){
             sliderItems.add(new SliderItems(object.getPicUrl().get(i)));
@@ -67,5 +81,57 @@ public class DetailActivity extends BaseActivity {
             }
         });
         binding.btnBack.setOnClickListener(v -> finish());
+    }
+    private void setupViewpager(){
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+        DescriptionFragment descriptionFragment = new DescriptionFragment();
+        ReviewFragment reviewFragment = new ReviewFragment();
+        SoldFragment soldFragment = new SoldFragment();
+
+        Bundle bundle = new Bundle();
+        Bundle bundle1 = new Bundle();
+        Bundle bundle2 = new Bundle();
+
+        bundle.putString("description", object.getDescription());
+
+        descriptionFragment.setArguments(bundle);
+        reviewFragment.setArguments(bundle1);
+        soldFragment.setArguments(bundle2);
+
+        adapter.addFrag(descriptionFragment, "Descriptions");
+        adapter.addFrag(reviewFragment, "Reviews");
+        adapter.addFrag(soldFragment, "Sold");
+
+        binding.viewpaper.setAdapter(adapter);
+        binding.tablelayout.setupWithViewPager(binding.viewpaper);
+    }
+    private class ViewPagerAdapter extends FragmentPagerAdapter{
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+        public ViewPagerAdapter(@NonNull FragmentManager fm) {
+            super(fm);
+        }
+
+        @NonNull
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        private void addFrag(Fragment fragment, String title){
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position){
+            return mFragmentTitleList.get(position);
+        }
     }
 }
