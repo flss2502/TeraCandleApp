@@ -14,6 +14,7 @@ import androidx.viewpager2.widget.MarginPageTransformer;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.group04.shop.Adapter.CategoryAdapter;
 import com.group04.shop.Adapter.PopularAdapter;
@@ -27,9 +28,13 @@ import java.util.ArrayList;
 
 public class MainActivity extends BaseActivity {
     private ActivityMainBinding binding;
+    private DatabaseReference mDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        mDatabase = database.getReference();
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -37,6 +42,7 @@ public class MainActivity extends BaseActivity {
         initCategory();
         initPopular();
     }
+
 
     private void initPopular() {
         DatabaseReference myRef = database.getInstance("https://shopping-56bed-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("Items");
