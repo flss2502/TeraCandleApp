@@ -43,10 +43,15 @@ public class MainActivity extends BaseActivity {
         initCategory();
         initPopular();
         bottomNavigation();
+        topNavigation();
+    }
+
+    private void topNavigation() {
+        binding.btnCart.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CartActivity.class)));
     }
 
     private void bottomNavigation() {
-        binding.btnCart.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CartActivity.class)));
+        binding.btnMap.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CartActivity.class)));
     }
 
 
