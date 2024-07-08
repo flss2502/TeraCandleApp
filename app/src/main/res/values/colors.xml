@@ -9,5 +9,6 @@
     <color name="blue">#3b5998</color>
     <color name="theme_color">#2176FF</color>
     <color name="theme_color_8">#2176FF</color>
+    <color name="background">#d5c3ab</color>
 
 </resources>

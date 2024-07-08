@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/bac"
     android:id="@+id/signup"
     tools:context=".Activity.SignUpActivity">
 
@@ -18,7 +18,7 @@
             android:layout_height="200dp"
             android:layout_marginTop="40dp"
             android:contentDescription="@string/logo"
-            android:src="@drawable/candle"
+            android:src="@drawable/logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

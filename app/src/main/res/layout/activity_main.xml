@@ -36,7 +36,7 @@
                     android:drawableStart="@drawable/search_icon"
                     android:drawablePadding="8dp"
                     android:ems="10"
-                    android:hint="Nike"
+                    android:hint="Dalat"
                     android:inputType="text"
                     android:padding="8dp" />
 
@@ -48,13 +48,13 @@
 
                     <ImageView
                         android:id="@+id/imageView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/btn_3" />
+                        app:srcCompat="@drawable/carts" />
 
                     <ImageView
                         android:id="@+id/imageView2"
@@ -84,7 +84,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="300dp"
                 android:layout_marginTop="16dp">
 
                 <ProgressBar
@@ -117,7 +117,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
-                android:text="Official Brand"
+                android:text="Categories"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -162,7 +162,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Popular products"
+                    android:text="Products"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -236,17 +236,17 @@
 
                     <ImageView
                         android:id="@+id/imageView3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/btn_1"/>
+                        android:src="@drawable/home"/>
 
                     <TextView
                         android:id="@+id/textView5"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Explorer"
+                        android:text="Home"
                         android:textAlignment="center"/>
                 </LinearLayout>
 
@@ -260,10 +260,10 @@
 
                     <ImageView
                         android:id="@+id/imageView7"
-                        android:layout_width="match_parent"
+                        android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/btn_2" />
+                        android:src="@drawable/wishlish" />
 
                     <TextView
                         android:id="@+id/textView8"
@@ -285,17 +285,17 @@
 
                     <ImageView
                         android:id="@+id/imageView8"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/btn_3" />
+                        android:src="@drawable/map" />
 
                     <TextView
                         android:id="@+id/textView9"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Cart"
+                        android:text="Location"
                         android:textAlignment="center" />
                 </LinearLayout>
 
@@ -309,8 +309,8 @@
 
                     <ImageView
                         android:id="@+id/imageView10"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_gravity="center"
                         android:src="@drawable/btn_4"/>
 
