@@ -22,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText emailEditText, passwordEditText;
     private Button btnLogin;
     private FirebaseAuth firebaseAuth;
-    private TextView txtNotAccount;
+    private TextView txtNotAccount,txtForgot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.passwordEditText);
         btnLogin = findViewById(R.id.signInButton);
         txtNotAccount = findViewById(R.id.signUpTextView);
-
+        txtForgot = findViewById(R.id.forgotPasswordTextView);
         // Set click listener for login button
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +51,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
+            }
+        });
+
+        txtForgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this,ForgotPasswordActivity.class);
+                startActivity(intent);
             }
         });
     }
