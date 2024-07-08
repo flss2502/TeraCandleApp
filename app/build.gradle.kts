@@ -52,7 +52,7 @@ dependencies {
     implementation("com.google.code.gson:gson:2.9.1")
 
     implementation(fileTree(mapOf(
-            "dir" to "F:\\Semester 8\\PRM392\\ZaloPayLib",
+            "dir" to "D:\\Semeter 8\\PRM392\\ZaloPayLib",
             "include" to listOf("*.aar", "*.jar"),
             "exclude" to listOf(""))))
 
