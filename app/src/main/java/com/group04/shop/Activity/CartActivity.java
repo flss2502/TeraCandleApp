@@ -35,6 +35,7 @@ public class CartActivity extends AppCompatActivity {
         binding = ActivityCartBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        bottomNavigation();
         StrictMode.ThreadPolicy policy = new
                 StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -91,6 +92,25 @@ public class CartActivity extends AppCompatActivity {
                 }
 
             }
+        });
+    }
+
+    private void bottomNavigation() {
+        binding.btnHome.setOnClickListener(v -> {
+            startActivity(new Intent(CartActivity.this, MainActivity.class));
+            finish();
+        });
+        binding.btnMap.setOnClickListener(v -> {
+            startActivity(new Intent(CartActivity.this, MapActivity.class));
+            finish();
+        });
+        binding.btnChat.setOnClickListener(v -> {
+            startActivity(new Intent(CartActivity.this, ChatActivity.class));
+            finish();
+        });
+        binding.btnProfile.setOnClickListener(v -> {
+            startActivity(new Intent(CartActivity.this, ProfileActivity.class));
+            finish();
         });
     }
 

@@ -1,6 +1,7 @@
 package com.group04.shop.Activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import android.view.View;
@@ -51,7 +52,15 @@ public class MainActivity extends BaseActivity {
     }
 
     private void bottomNavigation() {
-        binding.btnMap.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CartActivity.class)));
+        binding.btnMap.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, MapActivity.class));
+        });
+        binding.btnChat.setOnClickListener(v -> {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://m.me/261327180406689")));
+        });
+        binding.btnProfile.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+        });
     }
 
 

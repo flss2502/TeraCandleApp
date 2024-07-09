@@ -59,4 +59,7 @@ dependencies {
 
     implementation("com.squareup.okhttp3:okhttp:4.6.0")
     implementation("commons-codec:commons-codec:1.14")
+
+    implementation(libs.play.services.maps)
+    implementation(libs.play.services.location)
 }
