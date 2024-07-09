@@ -1,17 +1,17 @@
 package com.group04.shop.Activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.group04.shop.Adapter.CartAdapter;
 import com.group04.shop.Api.CreateOrder;
-import com.group04.shop.Helper.ChangeNumberItemsListener;
+import com.group04.shop.Domain.ItemsDomain;
 import com.group04.shop.Helper.ManagmentCart;
 import com.group04.shop.databinding.ActivityCartBinding;
 
@@ -29,14 +29,14 @@ public class CartActivity extends AppCompatActivity {
     ActivityCartBinding binding;
     private double tax;
     private ManagmentCart managmentCart;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityCartBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        StrictMode.ThreadPolicy policy = new
-                StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         ZaloPaySDK.init(2553, Environment.SANDBOX);
@@ -57,7 +57,6 @@ public class CartActivity extends AppCompatActivity {
                     JSONObject data = orderApi.createOrder(totalString);
 
                     String code = data.getString("return_code");
-
 
                     if (code.equals("1")) {
                         String token = data.getString("zp_trans_token");
@@ -83,19 +82,17 @@ public class CartActivity extends AppCompatActivity {
                                 startActivity(intent);
                             }
                         });
-
                     }
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
         });
     }
 
     private void initCartList() {
-        if(managmentCart.getListCart().isEmpty()){
+        if (managmentCart.getListCart().isEmpty()) {
             binding.tvEmpty.setVisibility(View.VISIBLE);
             binding.scrollViewCart.setVisibility(View.GONE);
         } else {
@@ -115,16 +112,27 @@ public class CartActivity extends AppCompatActivity {
         double percentTax = 0.02;
         double delivery = 10;
 
+        // Tính thuế và tổng thanh toán
         tax = Math.round((managmentCart.getTotalFee() * percentTax * 100.0)) / 100.0;
-
         double total = Math.round((managmentCart.getTotalFee() + tax + delivery) * 100.0) / 100.0;
         double itemTotal = Math.round(managmentCart.getTotalFee() * 100.0) / 100.0;
 
+        // Hiển thị các thông tin về thanh toán lên giao diện
         binding.tvTotalFee.setText(itemTotal + "VNĐ");
         binding.tvTax.setText(tax + "VNĐ");
         binding.tvDelivery.setText(delivery + "VNĐ");
         binding.tvTotal.setText(total + "VNĐ");
 
+        // Tính tổng số lượng sản phẩm trong giỏ hàng
+        int itemCount = 0;
+        for (ItemsDomain item : managmentCart.getListCart()) {
+            itemCount += item.getNumberinCart();
+        }
+
+        // Chuyển số lượng sản phẩm vào MainActivity
+        Intent intent = new Intent();
+        intent.putExtra("itemCount", itemCount);
+        setResult(Activity.RESULT_OK, intent);
     }
 
     private String extractNumber(String text) {
