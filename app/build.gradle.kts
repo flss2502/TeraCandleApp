@@ -48,7 +48,7 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.1.1"))
 
     implementation(fileTree(mapOf(
-            "dir" to "F:\\Semester 8\\PRM392\\ZaloPayLib",
+            "dir" to "../ZaloPayLib",
             "include" to listOf("*.aar", "*.jar"),
             "exclude" to listOf(""))))
 
