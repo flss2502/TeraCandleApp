@@ -1,5 +1,7 @@
 package com.group04.shop.Activity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -20,5 +22,25 @@ public class ProfileActivity extends AppCompatActivity {
         binding = ActivityProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        bottomNavigation();
+    }
+
+    private void bottomNavigation() {
+        binding.btnMap.setOnClickListener(v -> {
+            startActivity(new Intent(ProfileActivity.this, MapActivity.class));
+            finish();
+        });
+        binding.btnHome.setOnClickListener(v -> {
+            startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+            finish();
+        });
+        binding.btnChat.setOnClickListener(v -> {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://m.me/261327180406689")));
+            finish();
+        });
+        binding.btnProfile.setOnClickListener(v -> {
+            startActivity(new Intent(ProfileActivity.this, ProfileActivity.class));
+            finish();
+        });
     }
 }

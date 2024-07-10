@@ -1,6 +1,7 @@
 package com.group04.shop.Activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 
@@ -51,7 +52,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             finish();
         });
         binding.btnChat.setOnClickListener(v -> {
-            startActivity(new Intent(MapActivity.this, ChatActivity.class));
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://m.me/261327180406689")));
             finish();
         });
         binding.btnProfile.setOnClickListener(v -> {
