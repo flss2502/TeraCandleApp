@@ -106,7 +106,8 @@
                                     android:layout_weight="0.33333"
                                     android:background="@drawable/grey_background"
                                     android:elevation="5dp"
-                                    android:orientation="vertical">
+                                    android:orientation="vertical"
+                                    android:id="@+id/btnOrder">
 
                                     <androidx.constraintlayout.widget.ConstraintLayout
                                         android:layout_width="60dp"
@@ -184,7 +185,8 @@
                                     android:layout_weight="0.33333"
                                     android:background="@drawable/grey_background"
                                     android:elevation="5dp"
-                                    android:orientation="vertical">
+                                    android:orientation="vertical"
+                                    android:id="@+id/btnLogout">
 
                                     <androidx.constraintlayout.widget.ConstraintLayout
                                         android:layout_width="60dp"

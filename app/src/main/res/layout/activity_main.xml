@@ -69,7 +69,7 @@
                         app:srcCompat="@drawable/red_circle" />
 
                     <TextView
-                        android:id="@+id/textView1"
+                        android:id="@+id/tvNotify"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1"
@@ -214,7 +214,7 @@
         android:layout_height="100dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="@id/scrollView">
 
         <com.google.android.material.bottomappbar.BottomAppBar
             android:layout_width="match_parent"

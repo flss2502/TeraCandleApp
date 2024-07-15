@@ -12,12 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.group04.shop.Adapter.CartAdapter;
 import com.group04.shop.Api.CreateOrder;
+import com.group04.shop.Domain.ItemsDomain;
 import com.group04.shop.Helper.ChangeNumberItemsListener;
 import com.group04.shop.Helper.ManagmentCart;
 import com.group04.shop.databinding.ActivityCartBinding;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,8 +49,68 @@ public class CartActivity extends AppCompatActivity {
         calculatorCart();
         setVariable();
         initCartList();
+    }
 
-        double total = Double.parseDouble(extractNumber(binding.tvTotal.getText().toString()));
+    private void bottomNavigation() {
+        binding.btnHome.setOnClickListener(v -> {
+            startActivity(new Intent(CartActivity.this, MainActivity.class));
+            finish();
+        });
+        binding.btnMap.setOnClickListener(v -> {
+            startActivity(new Intent(CartActivity.this, MapActivity.class));
+            finish();
+        });
+        binding.btnChat.setOnClickListener(v -> {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://m.me/261327180406689")));
+            finish();
+        });
+        binding.btnProfile.setOnClickListener(v -> {
+            startActivity(new Intent(CartActivity.this, ProfileActivity.class));
+            finish();
+        });
+    }
+
+    private void initCartList() {
+        if(managmentCart.getListCart().isEmpty()){
+            binding.tvEmpty.setVisibility(View.VISIBLE);
+            binding.scrollViewCart.setVisibility(View.GONE);
+        } else {
+            binding.tvEmpty.setVisibility(View.GONE);
+            binding.scrollViewCart.setVisibility(View.VISIBLE);
+        }
+
+        binding.cartView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        binding.cartView.setAdapter(new CartAdapter(managmentCart.getListCart(), this, this::calculatorCart));
+
+
+    }
+
+    private void setVariable() {
+        binding.btnBack.setOnClickListener(v -> finish());
+    }
+
+    private void calculatorCart() {
+        double percentTax = 0.1;
+        double delivery = 2000;
+
+        ArrayList<ItemsDomain> cartItems = managmentCart.getListCart();
+        int totalQuantity = 0;
+        for (ItemsDomain item : cartItems) {
+            totalQuantity += item.getNumberinCart();
+        }
+
+        tax = Math.round((managmentCart.getTotalFee() * percentTax * 100.0)) / 100.0;
+
+        double total = Math.round((managmentCart.getTotalFee() + tax + delivery) * 100.0) / 100.0;
+        double itemTotal = Math.round(managmentCart.getTotalFee() * 100.0) / 100.0;
+        double deliveryCost = totalQuantity * delivery;
+
+        binding.tvTotalFee.setText(itemTotal + "VNĐ");
+        binding.tvTax.setText(tax + "VNĐ");
+        binding.tvDelivery.setText(deliveryCost + "VNĐ");
+        binding.tvTotal.setText(total + "VNĐ");
+
+        total = Double.parseDouble(extractNumber(binding.tvTotal.getText().toString()));
         String totalString = String.format("%.0f", total);
 
         binding.btnCheckOut.setOnClickListener(new View.OnClickListener() {
@@ -94,58 +156,6 @@ public class CartActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void bottomNavigation() {
-        binding.btnHome.setOnClickListener(v -> {
-            startActivity(new Intent(CartActivity.this, MainActivity.class));
-            finish();
-        });
-        binding.btnMap.setOnClickListener(v -> {
-            startActivity(new Intent(CartActivity.this, MapActivity.class));
-            finish();
-        });
-        binding.btnChat.setOnClickListener(v -> {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://m.me/261327180406689")));
-            finish();
-        });
-        binding.btnProfile.setOnClickListener(v -> {
-            startActivity(new Intent(CartActivity.this, ProfileActivity.class));
-            finish();
-        });
-    }
-
-    private void initCartList() {
-        if(managmentCart.getListCart().isEmpty()){
-            binding.tvEmpty.setVisibility(View.VISIBLE);
-            binding.scrollViewCart.setVisibility(View.GONE);
-        } else {
-            binding.tvEmpty.setVisibility(View.GONE);
-            binding.scrollViewCart.setVisibility(View.VISIBLE);
-        }
-
-        binding.cartView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        binding.cartView.setAdapter(new CartAdapter(managmentCart.getListCart(), this, () -> calculatorCart()));
-    }
-
-    private void setVariable() {
-        binding.btnBack.setOnClickListener(v -> finish());
-    }
-
-    private void calculatorCart() {
-        double percentTax = 0.02;
-        double delivery = 10;
-
-        tax = Math.round((managmentCart.getTotalFee() * percentTax * 100.0)) / 100.0;
-
-        double total = Math.round((managmentCart.getTotalFee() + tax + delivery) * 100.0) / 100.0;
-        double itemTotal = Math.round(managmentCart.getTotalFee() * 100.0) / 100.0;
-
-        binding.tvTotalFee.setText(itemTotal + "VNĐ");
-        binding.tvTax.setText(tax + "VNĐ");
-        binding.tvDelivery.setText(delivery + "VNĐ");
-        binding.tvTotal.setText(total + "VNĐ");
-
     }
 
     private String extractNumber(String text) {

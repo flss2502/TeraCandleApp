@@ -23,8 +23,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.group04.shop.Domain.UserDomain;
 import com.group04.shop.R;
 
-import java.util.concurrent.atomic.AtomicLong;
-
 public class SignUpActivity extends AppCompatActivity {
 
     private EditText editTextFullName, editTextEmail, editTextPassword, editAddress, editTextPhone, editTextConfirmPassword;
@@ -33,15 +31,16 @@ public class SignUpActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private TextView signInTextView;
 
+    private long nextUserId = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        // Initialize Firebase Database reference
-        databaseReference = FirebaseDatabase.getInstance("https://shopping-56bed-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("users");
+        firebaseAuth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance("https://shopping-56bed-default-rtdb.asia-southeast1.firebasedatabase.app").getReference();
 
-        // Initialize views
         editTextFullName = findViewById(R.id.fullNameEditText);
         editTextEmail = findViewById(R.id.emailEditText);
         editTextPassword = findViewById(R.id.passwordEditText);
@@ -50,8 +49,6 @@ public class SignUpActivity extends AppCompatActivity {
         editTextConfirmPassword = findViewById(R.id.reEnterPasswordEditText);
         buttonSignUp = findViewById(R.id.signUpButton);
         signInTextView = findViewById(R.id.signInTextView);
-
-        // Handle sign up button click
         buttonSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,6 +57,23 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
         signInTextView.setOnClickListener(v -> startActivity(new Intent(SignUpActivity.this, LoginActivity.class)));
+        fetchNextUserId();
+    }
+
+    private void fetchNextUserId() {
+        databaseReference.child("users").orderByKey().limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    nextUserId = Long.parseLong(dataSnapshot.getChildren().iterator().next().getKey()) + 1;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(SignUpActivity.this, "Failed to get user ID: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void signUpUser() {
@@ -107,58 +121,36 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
 
-        // Fetch the last userId and increment it by 1
-        AtomicLong userId = new AtomicLong(1); // Default userId if no users exist
-        databaseReference.child("users").orderByKey().limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    userId.set(Long.parseLong(snapshot.getKey()) + 1);
-                }
+        // Create user authentication
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                        if (firebaseUser != null) {
+                            // Create a UserDomain object with required fields
+                            UserDomain user = new UserDomain(nextUserId, fullName, address, phone, email, password);
 
-                // Fetch the input values from EditText fields
-                String fullName = editTextFullName.getText().toString().trim();
-                String email = editTextEmail.getText().toString().trim();
-                String password = editTextPassword.getText().toString().trim();
-                String address = editAddress.getText().toString().trim();
-                String phone = editTextPhone.getText().toString().trim();
-
-                // Validate input fields (omitted for brevity)
-
-                // Create user authentication
-                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                                if (firebaseUser != null) {
-                                    // Create a User object with required fields
-                                    UserDomain user = new UserDomain(userId, fullName, address, phone, email, password);
-
-                                    // Save user to Firebase Realtime Database
-                                    databaseReference.child("users").child(String.valueOf(userId.get())).setValue(user)
-                                            .addOnSuccessListener(aVoid -> {
-                                                Toast.makeText(SignUpActivity.this, "User registered successfully", Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-                                                startActivity(intent);
-                                                finish(); // Close SignUpActivity
-                                            })
-                                            .addOnFailureListener(e -> {
-                                                Toast.makeText(SignUpActivity.this, "Failed to register user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                            });
-                                } else {
-                                    Toast.makeText(SignUpActivity.this, "Failed to get current user", Toast.LENGTH_SHORT).show();
-                                }
-                            } else {
-                                Toast.makeText(SignUpActivity.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(SignUpActivity.this, "Failed to get user ID: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                            // Save user to Firebase Realtime Database
+                            databaseReference.child("users").child(String.valueOf(nextUserId)).setValue(user)
+                                    .addOnSuccessListener(aVoid -> {
+                                        Toast.makeText(SignUpActivity.this, "User registered successfully", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                                        startActivity(intent);
+                                        finish(); // Close SignUpActivity
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Toast.makeText(SignUpActivity.this, "Failed to register user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    });
+                        } else {
+                            Toast.makeText(SignUpActivity.this, "Failed to get current user", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(SignUpActivity.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(SignUpActivity.this, "Authentication failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
 
     }
 }

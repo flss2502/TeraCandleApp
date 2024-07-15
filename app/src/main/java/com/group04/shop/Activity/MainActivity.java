@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -24,6 +25,7 @@ import com.group04.shop.Adapter.SliderAdapter;
 import com.group04.shop.Domain.CategoryDomain;
 import com.group04.shop.Domain.ItemsDomain;
 import com.group04.shop.Domain.SliderItems;
+import com.group04.shop.Helper.ManagmentCart;
 import com.group04.shop.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
@@ -31,6 +33,8 @@ import java.util.ArrayList;
 public class MainActivity extends BaseActivity {
     private ActivityMainBinding binding;
     private DatabaseReference mDatabase;
+    private ManagmentCart managmentCart;
+    private TextView tvQuantity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +52,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void topNavigation() {
+
         binding.btnCart.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CartActivity.class)));
     }
 
