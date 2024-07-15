@@ -167,13 +167,6 @@
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="See all"
-                    android:textColor="@color/green" />
             </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -248,7 +241,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Home"
+                        android:text="Trang chủ"
                         android:textAlignment="center"/>
                 </LinearLayout>
 
@@ -298,7 +291,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Location"
+                        android:text="Vị trí"
                         android:textAlignment="center" />
                 </LinearLayout>
 

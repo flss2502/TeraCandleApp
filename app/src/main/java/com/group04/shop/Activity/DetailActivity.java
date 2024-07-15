@@ -68,9 +68,9 @@ public class DetailActivity extends BaseActivity {
     private void getBundles() {
         object = (ItemsDomain) getIntent().getSerializableExtra("object");
         binding.titleTxt.setText(object.getTitle());
-        binding.priceTxt.setText(object.getPrice() + "VNĐ");
+        binding.priceTxt.setText(object.getPrice() + " VNĐ");
         binding.ratingBar.setRating((float) object.getRating());
-        binding.ratingTxt.setText(object.getRating() + "rating");
+        binding.ratingTxt.setText(object.getRating() + " đánh giá");
 
         binding.btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,9 +98,8 @@ public class DetailActivity extends BaseActivity {
         reviewFragment.setArguments(bundle1);
         soldFragment.setArguments(bundle2);
 
-        adapter.addFrag(descriptionFragment, "Descriptions");
-        adapter.addFrag(reviewFragment, "Reviews");
-        adapter.addFrag(soldFragment, "Sold");
+        adapter.addFrag(descriptionFragment, "Thông tin sản phẩm");
+        adapter.addFrag(reviewFragment, "Đánh giá");
 
         binding.viewpaper.setAdapter(adapter);
         binding.tablelayout.setupWithViewPager(binding.viewpaper);

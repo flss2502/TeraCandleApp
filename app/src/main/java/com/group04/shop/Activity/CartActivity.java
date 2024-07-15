@@ -128,6 +128,7 @@ public class CartActivity extends AppCompatActivity {
                         ZaloPaySDK.getInstance().payOrder(CartActivity.this, token, "demozpdk://app", new PayOrderListener() {
                             @Override
                             public void onPaymentSucceeded(String s, String s1, String s2) {
+
                                 Intent intent = new Intent(CartActivity.this, PaymentNotification.class);
                                 intent.putExtra("result", "Thanh toán thành công");
                                 startActivity(intent);

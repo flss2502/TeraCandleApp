@@ -98,13 +98,10 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
         client = GoogleSignIn.getClient(LoginActivity.this, options);
 
-        imageViewGG.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signOut(); // Ensure previous session is signed out
-                Intent signInIntent = client.getSignInIntent();
-                activityResultLauncher.launch(signInIntent);
-            }
+        imageViewGG.setOnClickListener(v -> {
+            signOut(); // Ensure previous session is signed out
+            Intent signInIntent = client.getSignInIntent();
+            activityResultLauncher.launch(signInIntent);
         });
 
         btnLogin.setOnClickListener(new View.OnClickListener() {

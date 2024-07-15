@@ -125,7 +125,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="40dp"
-                    android:text="0 rate"
+                    android:text="0 đánh giá"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -142,7 +142,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="Size"
+                    android:text="Loại"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -203,7 +203,7 @@
                 android:textColor="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Add to Cart" />
+                android:text="Thêm vào giỏ" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
